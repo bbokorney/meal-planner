@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { selectRecipeById, updateRecipe } from "./recipesSlice";
 import { useHistory } from "react-router-dom";
+import { selectRecipeById, updateRecipe, deleteRecipe } from "./recipesSlice";
 
 export const EditRecipeForm = ({ match }) => {
   const { recipeId } = match.params;
@@ -16,10 +16,14 @@ export const EditRecipeForm = ({ match }) => {
 
   const onSaveRecipeClicked = () => {
     if (name && ingredients.length > 0 && steps.length > 0) {
-      console.log(name, ingredients, steps);
       dispatch(updateRecipe({ id: recipeId, name, ingredients, steps }));
       history.push(`/recipes/${recipeId}`);
     }
+  };
+
+  const onDeleteRecipeClicked = () => {
+    dispatch(deleteRecipe(recipeId));
+    history.push(`/recipes`);
   };
 
   const replaceInArray = (arr, updatedIndex, updatedValue) => {
@@ -66,7 +70,6 @@ export const EditRecipeForm = ({ match }) => {
   return (
     <section>
       <h2>Edit Recipe</h2>
-
       <form>
         <h3>Recipe Name:</h3>
         <textarea
@@ -80,6 +83,9 @@ export const EditRecipeForm = ({ match }) => {
       </form>
       <button type="button" onClick={onSaveRecipeClicked}>
         Save Recipe
+      </button>
+      <button type="button" onClick={onDeleteRecipeClicked}>
+        Delete Recipe
       </button>
     </section>
   );

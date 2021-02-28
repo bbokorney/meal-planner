@@ -31,6 +31,14 @@ export const updateRecipe = createAsyncThunk(
   }
 );
 
+export const deleteRecipe = createAsyncThunk(
+  "posts/deleteRecipe",
+  async (recipeId) => {
+    await client.deleteRecipe(recipeId);
+    return recipeId;
+  }
+);
+
 const recipesSlice = createSlice({
   name: "recipes",
   initialState,
@@ -53,6 +61,8 @@ const recipesSlice = createSlice({
     },
 
     [updateRecipe.fulfilled]: recipesAdapter.upsertOne,
+
+    [deleteRecipe.fulfilled]: recipesAdapter.removeOne,
   },
 });
 

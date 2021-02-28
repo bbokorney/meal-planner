@@ -35,6 +35,12 @@ class Client {
       resolve(recipe);
     });
   };
+
+  deleteRecipe = () => {
+    return new Promise((resolve) => {
+      resolve();
+    });
+  };
 }
 
 export default Client;
