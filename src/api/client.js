@@ -60,6 +60,12 @@ class Client {
       ]);
     });
   };
+
+  addIngredientsToShoppingList = () => {
+    return new Promise((resolve) => {
+      resolve();
+    });
+  };
 }
 
 export default Client;

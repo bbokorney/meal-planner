@@ -2,6 +2,7 @@ import {
   createSlice,
   createEntityAdapter,
   createAsyncThunk,
+  nanoid,
 } from "@reduxjs/toolkit";
 
 import Client from "../../api/client";
@@ -23,6 +24,16 @@ export const fetchShoppingList = createAsyncThunk(
   }
 );
 
+export const addIngredientsToShoppingList = createAsyncThunk(
+  "shoppingList/addIngredientsToShoppingList",
+  async (ingredients) => {
+    await client.addIngredientsToShoppingList();
+    return ingredients.map((ingredient) => {
+      return { id: nanoid(), text: ingredient, acquired: false };
+    });
+  }
+);
+
 const shoppingListSlice = createSlice({
   name: "shoppingList",
   initialState,
@@ -40,6 +51,14 @@ const shoppingListSlice = createSlice({
     [fetchShoppingList.rejected]: (state, action) => {
       state.status = "failed";
       state.error = action.error.message;
+    },
+
+    [addIngredientsToShoppingList.fulfilled]: (state, action) => {
+      shoppingListAdapter.upsertMany(state, action.payload);
+    },
+
+    [addIngredientsToShoppingList.rejected]: (state, action) => {
+      console.log(action.error.message);
     },
   },
 });
