@@ -23,6 +23,14 @@ export const fetchRecipes = createAsyncThunk(
   }
 );
 
+export const updateRecipe = createAsyncThunk(
+  "posts/updateRecipe",
+  async (recipe) => {
+    const response = await client.updateRecipe(recipe);
+    return response;
+  }
+);
+
 const recipesSlice = createSlice({
   name: "recipes",
   initialState,
@@ -43,6 +51,8 @@ const recipesSlice = createSlice({
       state.status = "failed";
       state.error = action.error.message;
     },
+
+    [updateRecipe.fulfilled]: recipesAdapter.upsertOne,
   },
 });
 

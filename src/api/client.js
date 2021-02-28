@@ -29,6 +29,12 @@ class Client {
       ]);
     });
   };
+
+  updateRecipe = (recipe) => {
+    return new Promise((resolve) => {
+      resolve(recipe);
+    });
+  };
 }
 
 export default Client;
