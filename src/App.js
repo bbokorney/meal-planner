@@ -5,14 +5,18 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
+
+import { Navbar } from "./app/Navbar";
 import { RecipesList } from "./features/recipes/RecipesList";
 import { SingleRecipe } from "./features/recipes/SingleRecipe";
 import { EditRecipeForm } from "./features/recipes/EditRecipeForm";
+import { ShoppingList } from "./features/shopping-list/ShoppingList";
 import "./App.css";
 
 function App() {
   return (
     <Router>
+      <Navbar />
       <Switch>
         <Route
           exact
@@ -23,6 +27,7 @@ function App() {
             </React.Fragment>
           )}
         />
+        <Route exact path="/shopping-list" component={ShoppingList} />
         <Route exact path="/recipes/:recipeId" component={SingleRecipe} />
         <Route exact path="/editRecipe/:recipeId" component={EditRecipeForm} />
         <Redirect to="/" />

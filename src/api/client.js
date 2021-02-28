@@ -41,6 +41,25 @@ class Client {
       resolve();
     });
   };
+
+  getShoppingList = () => {
+    return new Promise((resolve) => {
+      resolve([
+        {
+          id: 0,
+          text: "3 eggs",
+        },
+        {
+          id: 1,
+          text: "Bag o' sand",
+        },
+        {
+          id: 2,
+          text: "300 packets of ramen",
+        },
+      ]);
+    });
+  };
 }
 
 export default Client;
