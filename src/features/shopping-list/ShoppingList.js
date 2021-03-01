@@ -5,6 +5,7 @@ import {
   selectShoppingListItemById,
   selectShoppingListItemIds,
 } from "./shoppingListSlice";
+import { AddShoppingListItem } from "./AddShoppingListItem";
 
 const ShoppingListItem = ({ itemId }) => {
   const item = useSelector((state) =>
@@ -45,6 +46,7 @@ export const ShoppingList = () => {
     <section>
       <h2>Shopping List</h2>
       {content}
+      <AddShoppingListItem />
     </section>
   );
 };
