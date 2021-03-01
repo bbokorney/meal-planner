@@ -16,6 +16,7 @@ import "./App.css";
 function App() {
   return (
     <Router>
+      <h1>Meal Planner</h1>
       <Navbar />
       <Switch>
         <Route

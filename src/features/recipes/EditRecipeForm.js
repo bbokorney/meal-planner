@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
+
 import { selectRecipeById, updateRecipe, deleteRecipe } from "./recipesSlice";
+import { AddItemInput } from "../shared/AddItemInput";
 
 export const EditRecipeForm = ({ match }) => {
   const { recipeId } = match.params;
@@ -42,6 +44,14 @@ export const EditRecipeForm = ({ match }) => {
     setSteps(replaceInArray(steps, updatedIndex, updatedValue));
   };
 
+  const onAddIngredientToRecipeClicked = (text) => {
+    setIngredients(ingredients.concat(text));
+  };
+
+  const onAddStepToRecipeClicked = (text) => {
+    setSteps(steps.concat(text));
+  };
+
   const renderedIngredients = ingredients.map((ingredient, index) => {
     return (
       <li key={index}>
@@ -78,8 +88,19 @@ export const EditRecipeForm = ({ match }) => {
         ></textarea>
         <h3>Ingredients</h3>
         <ul>{renderedIngredients}</ul>
+        <AddItemInput
+          buttonText="Add ingredient"
+          placeHolderText="1 tomato"
+          onAddItemCallback={onAddIngredientToRecipeClicked}
+        />
         <h3>Steps</h3>
         <ol>{renderedSteps}</ol>
+        <AddItemInput
+          buttonText="Add step"
+          placeHolderText="Boil the eggs for..."
+          elementType="textarea"
+          onAddItemCallback={onAddStepToRecipeClicked}
+        />
       </form>
       <button type="button" onClick={onSaveRecipeClicked}>
         Save Recipe

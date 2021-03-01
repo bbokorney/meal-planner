@@ -4,6 +4,7 @@ export const AddItemInput = ({
   onAddItemCallback,
   buttonText,
   placeHolderText,
+  elementType,
 }) => {
   const [text, setText] = useState("");
 
@@ -12,14 +13,22 @@ export const AddItemInput = ({
     setText("");
   };
 
+  const inputProps = {
+    type: "text",
+    placeholder: placeHolderText,
+    value: text,
+    onChange: (e) => setText(e.target.value),
+  };
+  let textElement;
+  if (!elementType || elementType === "input") {
+    textElement = <input {...inputProps} />;
+  } else if (elementType === "textarea") {
+    textElement = <textarea {...inputProps} />;
+  }
+
   return (
     <div>
-      <input
-        type="text"
-        placeholder={placeHolderText}
-        value={text}
-        onChange={(e) => setText(e.target.value)}
-      />
+      {textElement}
       <button type="button" onClick={onAddItemClicked}>
         {buttonText}
       </button>
