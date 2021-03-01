@@ -1,27 +1,20 @@
-import React, { useState } from "react";
+import React from "react";
 import { useDispatch } from "react-redux";
 import { addIngredientsToShoppingList } from "../shopping-list/shoppingListSlice";
+import { AddItemInput } from "../shared/AddItemInput";
 
 export const AddShoppingListItem = () => {
   const dispatch = useDispatch();
 
-  const [text, setText] = useState("");
-
-  const onAddIngredientsToShoppingListClicked = () => {
+  const onAddIngredientsToShoppingListClicked = (text) => {
     dispatch(addIngredientsToShoppingList([text]));
   };
 
   return (
-    <div>
-      <input
-        type="text"
-        placeholder="1 tomato"
-        value={text}
-        onChange={(e) => setText(e.target.value)}
-      />
-      <button type="button" onClick={onAddIngredientsToShoppingListClicked}>
-        Add ingredient
-      </button>
-    </div>
+    <AddItemInput
+      buttonText="Add item"
+      placeHolderText="1 tomato"
+      onAddItemCallback={onAddIngredientsToShoppingListClicked}
+    />
   );
 };
