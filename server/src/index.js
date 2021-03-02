@@ -20,6 +20,38 @@ app.get(`${prefix}/recipes`, async (req, res) => {
   res.json(recipes);
 });
 
+app.delete(`${prefix}/recipes/:id`, async (req, res) => {
+  const id = parseInt(req.params.id);
+
+  const deleteSteps = prisma.step.deleteMany({
+    where: {
+      recipeId: id,
+    },
+  });
+
+  const deleteIngredients = prisma.ingredient.deleteMany({
+    where: {
+      recipeId: id,
+    },
+  });
+
+  const deleteRecipe = prisma.recipe.delete({
+    where: {
+      id: id,
+    },
+  });
+
+  const transaction = await prisma.$transaction([
+    deleteSteps,
+    deleteIngredients,
+    deleteRecipe,
+  ]);
+
+  console.dir(transaction, { depth: null });
+
+  res.json(transaction);
+});
+
 const port = 4000;
 app.listen(port, () =>
   console.log(`🚀 Server ready at: http://localhost:${port}`)

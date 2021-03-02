@@ -5,15 +5,13 @@ class client {
     this.c = axios.create({
       baseURL: "/api/v1",
       timeout: 10000,
-      // headers: { "X-Auth-Token": token },
     });
   }
 
-  allRecipes = () => {
-    return this.c.get("recipes").then((result) => {
-      return result.data;
-    });
-  };
+  async allRecipes() {
+    const resp = await this.c.get("recipes");
+    return resp.data;
+  }
 
   updateRecipe = (recipe) => {
     return new Promise((resolve) => {
@@ -21,11 +19,10 @@ class client {
     });
   };
 
-  deleteRecipe = () => {
-    return new Promise((resolve) => {
-      resolve();
-    });
-  };
+  async deleteRecipe(id) {
+    const resp = await this.c.delete(`recipes/${id}`);
+    return resp.data;
+  }
 
   getShoppingList = () => {
     return new Promise((resolve) => {
