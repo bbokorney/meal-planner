@@ -29,9 +29,13 @@ export const EditRecipeForm = ({ match }) => {
   };
 
   const replaceInArray = (arr, updatedIndex, updatedValue) => {
+    const obj = {
+      ...arr[updatedIndex],
+      text: updatedValue,
+    };
     return [
       ...arr.slice(0, updatedIndex),
-      updatedValue,
+      obj,
       ...arr.slice(updatedIndex + 1, arr.length),
     ];
   };
@@ -45,11 +49,11 @@ export const EditRecipeForm = ({ match }) => {
   };
 
   const onAddIngredientToRecipeClicked = (text) => {
-    setIngredients(ingredients.concat(text));
+    setIngredients(ingredients.concat({ text: text }));
   };
 
   const onAddStepToRecipeClicked = (text) => {
-    setSteps(steps.concat(text));
+    setSteps(steps.concat({ text: text }));
   };
 
   const renderedIngredients = ingredients.map((ingredient, index) => {
@@ -59,7 +63,7 @@ export const EditRecipeForm = ({ match }) => {
           type="text"
           name="recipeName"
           placeholder="1 tomato"
-          value={ingredient}
+          value={ingredient.text}
           onChange={(e) => updateIngredientText(index, e.target.value)}
         />
       </li>
@@ -70,7 +74,7 @@ export const EditRecipeForm = ({ match }) => {
     return (
       <li key={index}>
         <textarea
-          value={step}
+          value={step.text}
           onChange={(e) => updateStepText(index, e.target.value)}
         ></textarea>
       </li>

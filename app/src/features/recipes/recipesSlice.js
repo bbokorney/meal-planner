@@ -62,6 +62,10 @@ const recipesSlice = createSlice({
 
     [updateRecipe.fulfilled]: recipesAdapter.upsertOne,
 
+    [updateRecipe.rejected]: (state, action) => {
+      console.log(action.error.message);
+    },
+
     [deleteRecipe.fulfilled]: recipesAdapter.removeOne,
   },
 });

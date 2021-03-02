@@ -13,11 +13,10 @@ class client {
     return resp.data;
   }
 
-  updateRecipe = (recipe) => {
-    return new Promise((resolve) => {
-      resolve(recipe);
-    });
-  };
+  async updateRecipe(recipe) {
+    const resp = await this.c.put(`recipes/${recipe.id}`, recipe);
+    return resp.data;
+  }
 
   async deleteRecipe(id) {
     const resp = await this.c.delete(`recipes/${id}`);
