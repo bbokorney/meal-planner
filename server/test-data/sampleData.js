@@ -55,6 +55,44 @@ module.exports = {
           ],
         },
       },
+      {
+        name: "Oatmeal",
+        ingredients: {
+          create: [
+            {
+              text: "1 cup milk (dairy, almond, cashew, etc.)",
+            },
+            {
+              text: "1/2 cup oats",
+            },
+            {
+              text: "1 banana",
+            },
+            {
+              text: "1 tbsp honey",
+            },
+            {
+              text: "Handful of cranberries",
+            },
+          ],
+        },
+        steps: {
+          create: [
+            {
+              text: "Slice banana.",
+            },
+            {
+              text: "Combine ingredients into bowl.",
+            },
+            {
+              text: "Microwave for 1 minute 30 seconds.",
+            },
+            {
+              text: "Stir. Microwave again for 1 minute.",
+            },
+          ],
+        },
+      },
     ],
   },
 };

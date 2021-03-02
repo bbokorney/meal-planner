@@ -7,10 +7,17 @@ const app = express();
 
 app.use(bodyParser.json());
 
-app.get("/", async (req, res) => {
-  const users = await prisma.user.findMany({});
-  console.dir(users);
-  res.json(users);
+const prefix = "/api/v1";
+
+app.get(`${prefix}/recipes`, async (req, res) => {
+  const recipes = await prisma.recipe.findMany({
+    include: {
+      ingredients: true,
+      steps: true,
+    },
+  });
+  console.dir(recipes, { depth: null });
+  res.json(recipes);
 });
 
 const port = 4000;

@@ -6,7 +6,7 @@ import {
 
 import Client from "../../api/client";
 
-const client = new Client();
+const client = Client();
 
 const recipesAdapter = createEntityAdapter();
 

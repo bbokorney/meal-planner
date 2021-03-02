@@ -9,11 +9,11 @@ export const SingleRecipe = ({ match }) => {
   const recipe = useSelector((state) => selectRecipeById(state, recipeId));
 
   const ingredients = recipe.ingredients.map((ingredient, index) => {
-    return <li key={index}>{ingredient}</li>;
+    return <li key={index}>{ingredient.text}</li>;
   });
 
   const steps = recipe.steps.map((step, index) => {
-    return <li key={index}>{step}</li>;
+    return <li key={index}>{step.text}</li>;
   });
 
   return (

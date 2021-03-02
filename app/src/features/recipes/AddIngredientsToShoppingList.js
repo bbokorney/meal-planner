@@ -12,7 +12,8 @@ export const AddIngredientsToShoppingList = ({ recipeId }) => {
   const history = useHistory();
 
   const onAddIngredientsToShoppingListClicked = () => {
-    dispatch(addIngredientsToShoppingList(ingredients));
+    const ingredientsText = ingredients.map((ingredient) => ingredient.text);
+    dispatch(addIngredientsToShoppingList(ingredientsText));
     history.push(`/shopping-list`);
   };
 
