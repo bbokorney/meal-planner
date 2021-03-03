@@ -1,68 +1,128 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
+# Meal Planner
 
-## Available Scripts
+## Setup
 
-In the project directory, you can run:
+Install [`nvm`(Node Version Manager)](https://github.com/nvm-sh/nvm).
 
-### `npm start`
+Use version 15.x of Node.
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+```bash
+$ nvm use 15
+```
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+Install sqlite CLI.
 
-### `npm test`
+```bash
+$ brew install sqlite
+```
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Install npm packages for app and server.
 
-### `npm run build`
+```bash
+$ (cd app && npm install)
+$ (cd server && npm install)
+```
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Set up the database and client.
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+```bash
+$ cd server
+$ npx prisma migrate dev --name init --preview-feature
+$ npx prisma generate
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Open a terminal and start the server.
 
-### `npm run eject`
+```bash
+$ cd server
+$ npm start
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Open another terminal and start the web app.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```bash
+$ cd app
+$ npm start
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Working with the database
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+The database is [SQLite](https://sqlite.org/index.html)
+and uses [prisma](https://www.prisma.io/) to
+manage the schema.
 
-## Learn More
+You can use the `sqlite3` CLI to interact with
+the database.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```bash
+$ cd server
+$ sqlite3 prisma/dev.db
+SQLite version 3.32.3 2020-06-18 14:16:19
+Enter ".help" for usage hints.
+# Show the schema
+sqlite> .schema
+# List the tables
+sqlite> .tables
+# To enable cascading deletes, set this
+sqlite> PRAGMA foreign_keys = ON;
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+`prisma` also has a web UI that lets you interact
+with the database. Open a new terminal.
 
-### Code Splitting
+```bash
+$ cd server
+$ npx prisma studio
+```
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+### Working with the schema
 
-### Analyzing the Bundle Size
+To change the schema, follow these steps.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+#### `cd` into the `server` directory
 
-### Making a Progressive Web App
+The `prisma` CLI assumes by default there is
+a `prisma/` directory, which is in `server/`.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+```
+$ cd server
+```
 
-### Advanced Configuration
+#### Modify `prisma/schema.prisma`
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+See the [docs on the schema model.](https://www.prisma.io/docs/concepts/components/prisma-schema/data-model/)
 
-### Deployment
+#### Create a schema migration with your changes
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+```bash
+$ npx prisma migrate dev --name init --preview-feature
+```
 
-### `npm run build` fails to minify
+This will create a directory in `prisma/migrations` 
+prefixed with a timestamp. Inside that directory will be
+a `.sql` file with the schema migration commands.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+The `prisma migrate` command also applies the migrations to the database.
+
+See the [docs on schema migration.](https://www.prisma.io/docs/concepts/components/prisma-migrate)
+
+#### Regenerate the database client
+
+After updating the schema you'll need to update
+the client code used in the server to interact
+with the database.
+
+```bash
+$ npx prisma generate
+```
+
+See [the docs on generating the client.](https://www.prisma.io/docs/concepts/components/prisma-client/working-with-prismaclient/generating-prisma-client)
+
+#### Format the schema file
+
+After you're done making modifications to the schema file
+it's a good idea to format it to keep the formatting consistent.
+
+```bash
+npx prisma format
+```
