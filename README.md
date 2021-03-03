@@ -10,7 +10,7 @@ Use version 15.x of Node.
 $ nvm use 15
 ```
 
-Install sqlite CLI.
+Install the sqlite CLI.
 
 ```bash
 $ brew install sqlite
@@ -75,11 +75,11 @@ $ cd server
 $ npx prisma studio
 ```
 
-### Working with the schema
+## Working with the schema
 
 To change the schema, follow these steps.
 
-#### `cd` into the `server` directory
+### `cd` into the `server` directory
 
 The `prisma` CLI assumes by default there is
 a `prisma/` directory, which is in `server/`.
@@ -88,11 +88,11 @@ a `prisma/` directory, which is in `server/`.
 $ cd server
 ```
 
-#### Modify `prisma/schema.prisma`
+### Modify `prisma/schema.prisma`
 
 See the [docs on the schema model.](https://www.prisma.io/docs/concepts/components/prisma-schema/data-model/)
 
-#### Create a schema migration with your changes
+### Create a schema migration with your changes
 
 ```bash
 $ npx prisma migrate dev --name init --preview-feature
@@ -106,7 +106,7 @@ The `prisma migrate` command also applies the migrations to the database.
 
 See the [docs on schema migration.](https://www.prisma.io/docs/concepts/components/prisma-migrate)
 
-#### Regenerate the database client
+### Regenerate the database client
 
 After updating the schema you'll need to update
 the client code used in the server to interact
@@ -118,7 +118,7 @@ $ npx prisma generate
 
 See [the docs on generating the client.](https://www.prisma.io/docs/concepts/components/prisma-client/working-with-prismaclient/generating-prisma-client)
 
-#### Format the schema file
+### Format the schema file
 
 After you're done making modifications to the schema file
 it's a good idea to format it to keep the formatting consistent.
