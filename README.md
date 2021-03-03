@@ -76,6 +76,50 @@ $ cd server
 $ npx prisma studio
 ```
 
+### Sample data
+
+You can load some sample data into
+the database.
+
+```bash
+$ node test-data/loadTestData.js
+```
+
+The sample data is defined in `server/test-data/sampleData.js`.
+
+### Resetting the database
+
+If you want to reset the database back to a
+blank slate there a couple ways.
+
+#### Nuclear option ☢️
+
+You can delete the `server/prisma/dev.db` file
+and re-run `prisma migrate` to start completely fresh.
+This will delete all the data and re-create the schema.
+
+#### Quick option
+
+A quicker way to delete all the data without
+needing to re-create the schema is by deleting
+all of the `User` rows from SQLite while having
+foreign keys enabled. Because all data stems from
+the `User` table, and because cascading deletes are
+enabled in the schema, deleting all users will thus
+delete all data.
+
+```bash
+$ cd server
+$ sqlite3 prisma/dev.db
+SQLite version 3.32.3 2020-06-18 14:16:19
+Enter ".help" for usage hints.
+# To enable cascading deletes, set this
+sqlite> PRAGMA foreign_keys = ON;
+# Deletes all users and via cascading deletes
+# all data in the database
+sqlite>  delete from user;
+```
+
 ## Working with the schema
 
 To change the schema, follow these steps.
