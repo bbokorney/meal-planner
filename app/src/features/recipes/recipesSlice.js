@@ -6,7 +6,7 @@ import {
 
 import Client from "../../api/client";
 
-const client = new Client();
+const client = Client();
 
 const recipesAdapter = createEntityAdapter();
 
@@ -61,6 +61,10 @@ const recipesSlice = createSlice({
     },
 
     [updateRecipe.fulfilled]: recipesAdapter.upsertOne,
+
+    [updateRecipe.rejected]: (state, action) => {
+      console.log(action.error.message);
+    },
 
     [deleteRecipe.fulfilled]: recipesAdapter.removeOne,
   },

@@ -1,0 +1,39 @@
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Ingredient {
+  id       Int    @id @default(autoincrement())
+  text     String
+  recipe   Recipe @relation(fields: [recipeId], references: [id])
+  recipeId Int
+}
+
+model Step {
+  id       Int    @id @default(autoincrement())
+  text     String
+  recipe   Recipe @relation(fields: [recipeId], references: [id])
+  recipeId Int
+}
+
+model Recipe {
+  id          Int          @id @default(autoincrement())
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  name        String
+  author      User         @relation(fields: [authorId], references: [id])
+  authorId    Int
+  ingredients Ingredient[]
+  steps       Step[]
+}
+
+model User {
+  id      Int      @id @default(autoincrement())
+  name    String?
+  recipes Recipe[]
+}
