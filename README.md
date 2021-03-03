@@ -31,10 +31,11 @@ $ npx prisma migrate dev --name init --preview-feature
 $ npx prisma generate
 ```
 
-Open a terminal and start the server.
+Open a terminal and load some sample data. Then start the server.
 
 ```bash
 $ cd server
+$ node test-data/loadTestData.js
 $ npm start
 ```
 
