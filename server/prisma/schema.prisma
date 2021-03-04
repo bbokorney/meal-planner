@@ -37,3 +37,10 @@ model User {
   name    String?
   recipes Recipe[]
 }
+
+model ShoppingList {
+  id       Int    @id @default(autoincrement())
+  text     String
+  index    Int
+  acquired String
+}

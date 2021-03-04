@@ -169,5 +169,5 @@ After you're done making modifications to the schema file
 it's a good idea to format it to keep the formatting consistent.
 
 ```bash
-npx prisma format
+$ npx prisma format
 ```

@@ -93,7 +93,19 @@ app.delete(`${prefix}/recipes/:id`, async (req, res) => {
   res.json(transaction);
 });
 
+app.get(`${prefix}/shopping-list`, async (req, res) => {
+  const shoppingList = await prisma.shoppingList.findMany({
+  });
+  console.dir(shoppingList, { depth: null });
+
+  res.json(
+      shoppingList
+  );
+});
+
 const port = 4000;
 app.listen(port, () =>
   console.log(`🚀 Server ready at: http://localhost:${port}`)
 );
+
+

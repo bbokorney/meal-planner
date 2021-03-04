@@ -1,4 +1,4 @@
-module.exports = {
+module.exports.users = {
   name: "Skeeter",
   recipes: {
     create: [
@@ -96,3 +96,23 @@ module.exports = {
     ],
   },
 };
+
+module.exports.shoppingList = [
+    {
+        text: "Bag of sands",
+        index: 0,
+        acquired: "no",
+    },
+    {
+        text: "Sack of nuts",
+        index: 1,
+        acquired: "yes",
+    },
+    {
+        text: "Bag of ass",
+        index: 2,
+        acquired: "no",
+    },
+]
+
+    
