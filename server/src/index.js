@@ -37,6 +37,8 @@ app.put(`${prefix}/recipes/:id`, async (req, res) => {
       where: { id: ingredient.id ? ingredient.id : 0 },
     };
   });
+  console.dir("Ingredients");
+  console.dir(ingredients, { depth: null });
 
   const steps = recipe.steps.map((step) => {
     const { recipeId, ...obj } = step;
@@ -49,6 +51,7 @@ app.put(`${prefix}/recipes/:id`, async (req, res) => {
     };
   });
 
+  console.dir("Steps");
   console.dir(steps, { depth: null });
   const updatedRecipe = await prisma.recipe.update({
     where: { id: id },
@@ -62,6 +65,7 @@ app.put(`${prefix}/recipes/:id`, async (req, res) => {
       },
     },
   });
+  console.dir("Updated Recipe");
   console.dir(updatedRecipe, { depth: null });
 
   res.json(updatedRecipe);
@@ -96,11 +100,35 @@ app.delete(`${prefix}/recipes/:id`, async (req, res) => {
 app.get(`${prefix}/shopping-list`, async (req, res) => {
   const shoppingList = await prisma.shoppingList.findMany({
   });
+  console.dir("Getting Shopping List");
   console.dir(shoppingList, { depth: null });
 
   res.json(
       shoppingList
   );
+});
+
+app.put(`${prefix}/shopping-list`, async (req, res) => {
+  const shoppingList = req.body; 
+  console.dir("Putting Shopping List");
+  console.dir(shoppingList, { depth: null });
+
+  const items = shoppingList.map((item) => {
+    return {
+      create: { ...item },
+      update: { ...item },
+      where: { id: item.id ? item.id : 0 }, 
+    };
+  });
+  
+  console.dir("Items from Shopping List");
+  console.dir(items, { depth: null });
+
+  items.forEach(async (item) => {
+    await prisma.shoppingList.upsert(item);
+  });
+
+  res.json(items);
 });
 
 const port = 4000;

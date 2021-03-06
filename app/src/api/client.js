@@ -33,6 +33,11 @@ class client {
       resolve();
     });
   };
+
+  async saveShoppingList(shoppingList) {
+    const resp = await this.c.put(`shopping-list`, shoppingList);
+    return resp.data;
+  }
 }
 
 const clientInstance = new client();

@@ -34,6 +34,14 @@ export const addIngredientsToShoppingList = createAsyncThunk(
   }
 );
 
+export const saveShoppingList = createAsyncThunk(
+  "shoppingList/saveShoppingList",
+  async (shoppingList) => {
+    const response = await client.saveShoppingList(shoppingList);
+    return response;
+  }
+);
+
 const shoppingListSlice = createSlice({
   name: "shoppingList",
   initialState,

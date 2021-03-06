@@ -1,25 +1,48 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   fetchShoppingList,
-  selectShoppingListItemById,
-  selectShoppingListItemIds,
+  // selectShoppingListItemById,
+  // selectShoppingListItemIds,
+  saveShoppingList,
+  getShoppingList,
 } from "./shoppingListSlice";
-import { AddShoppingListItem } from "./AddShoppingListItem";
+import { AddItemInput } from "../shared/AddItemInput";
 
-const ShoppingListItem = ({ itemId }) => {
-  const item = useSelector((state) =>
-    selectShoppingListItemById(state, itemId)
-  );
-  return <li>{item.text}</li>;
-};
+// const testShoppingList = [
+//   {
+//     text: "Bag of sands",
+//     index: 0,
+//     acquired: "no",
+//   },
+//   {
+//     text: "Sack of nuts",
+//     index: 1,
+//     acquired: "yes",
+//   },
+//   {
+//     text: "Bag of ass",
+//     index: 2,
+//     acquired: "no",
+//   },
+// ];
 
 export const ShoppingList = () => {
   const dispatch = useDispatch();
 
-  const itemIds = useSelector(selectShoppingListItemIds);
   const shoppingListStatus = useSelector((state) => state.shoppingList.status);
   const error = useSelector((state) => state.shoppingList.error);
+  const shoppingList = useSelector(getShoppingList);
+  const [newItems, setNewItems] = useState([]);
+  const items = shoppingList.concat(newItems);
+
+  const onSaveShoppingListClicked = () => {
+    dispatch(saveShoppingList(shoppingList.concat(newItems)));
+  };
+
+  const onAddShoppingListItem = (text) => {
+    setNewItems(newItems.concat({ text: text, index: 0, acquired: "no" }));
+  };
 
   useEffect(() => {
     if (shoppingListStatus === "idle") {
@@ -31,22 +54,25 @@ export const ShoppingList = () => {
   if (shoppingListStatus === "loading") {
     content = <div className="loader">Loading...</div>;
   } else if (shoppingListStatus === "succeeded") {
-    content = itemIds.map((itemId) => {
-      return (
-        <ul key={itemId}>
-          <ShoppingListItem itemId={itemId} />
-        </ul>
-      );
+    const listItems = items.map((item, index) => {
+      return <li key={index}> {item.text} </li>;
     });
+    content = <ul> {listItems} </ul>;
   } else if (shoppingListStatus === "failed") {
     content = <div>{error}</div>;
   }
-
   return (
     <section>
       <h2>Shopping List</h2>
       {content}
-      <AddShoppingListItem />
+      <AddItemInput
+        buttonText="Add item"
+        placeHolderText="1 tomato"
+        onAddItemCallback={onAddShoppingListItem}
+      />
+      <button type="button" onClick={onSaveShoppingListClicked}>
+        Save List
+      </button>
     </section>
   );
 };
