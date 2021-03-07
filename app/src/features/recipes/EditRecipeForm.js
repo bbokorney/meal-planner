@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-
 import { selectRecipeById, updateRecipe, deleteRecipe } from "./recipesSlice";
 import { AddItemInput } from "../shared/AddItemInput";
+import { BackButtonHeader } from "./BackButtonHeader";
 
 export const EditRecipeForm = ({ match }) => {
   const { recipeId } = match.params;
@@ -83,7 +83,7 @@ export const EditRecipeForm = ({ match }) => {
 
   return (
     <section>
-      <h2>Edit Recipe</h2>
+      <BackButtonHeader text={"Edit Recipe"} />
       <form>
         <h3>Recipe Name:</h3>
         <textarea

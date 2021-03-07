@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectRecipeById } from "./recipesSlice";
 import { AddIngredientsToShoppingList } from "./AddIngredientsToShoppingList";
+import { BackButtonHeader } from "./BackButtonHeader";
 import Button from "@material-ui/core/Button";
 import EditIcon from "@material-ui/icons/Edit";
 
@@ -20,7 +21,7 @@ export const SingleRecipe = ({ match }) => {
 
   return (
     <article>
-      <h2>{recipe.name}</h2>
+      <BackButtonHeader text={recipe.name} />
       <AddIngredientsToShoppingList recipeId={recipe.id} />
       <Button component={Link} to={`/editRecipe/${recipe.id}`}>
         <EditIcon />
