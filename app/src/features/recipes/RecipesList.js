@@ -29,7 +29,7 @@ const RecipeExcerpt = ({ recipeId }) => {
   return (
     <Box display="flex" alignItems="center" marginTop="10px">
       <Box display="flex" justifyContent="left" width="100%">
-        <b>{recipe.name}</b>
+        <h3>{recipe.name}</h3>
       </Box>
       <Button component={Link} to={`/recipes/${recipe.id}`}>
         <KeyboardArrowRightIcon />
