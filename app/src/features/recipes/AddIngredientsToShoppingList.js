@@ -3,6 +3,8 @@ import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { selectRecipeById } from "./recipesSlice";
 import { addIngredientsToShoppingList } from "../shopping-list/shoppingListSlice";
+import LowPriorityIcon from "@material-ui/icons/LowPriority";
+import Button from "@material-ui/core/Button";
 
 export const AddIngredientsToShoppingList = ({ recipeId }) => {
   const recipe = useSelector((state) => selectRecipeById(state, recipeId));
@@ -18,8 +20,8 @@ export const AddIngredientsToShoppingList = ({ recipeId }) => {
   };
 
   return (
-    <button type="button" onClick={onAddIngredientsToShoppingListClicked}>
-      Add Ingredients To Shopping List
-    </button>
+    <Button on>
+      <LowPriorityIcon onClick={onAddIngredientsToShoppingListClicked} />
+    </Button>
   );
 };

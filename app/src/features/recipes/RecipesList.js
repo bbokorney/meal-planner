@@ -12,12 +12,13 @@ import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Box from "@material-ui/core/Box";
 import KeyboardArrowRightIcon from "@material-ui/icons/KeyboardArrowRight";
+import { BOTTOM_BAR_HEIGHT } from "../../app/constants";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     margin: theme.spacing(1),
     position: "fixed",
-    bottom: "56px", // TODO: hardcoded relative to bottom bar
+    bottom: theme.spacing(BOTTOM_BAR_HEIGHT),
     right: theme.spacing(1),
   },
 }));
@@ -30,7 +31,7 @@ const RecipeExcerpt = ({ recipeId }) => {
       <Box display="flex" justifyContent="left" width="100%">
         <b>{recipe.name}</b>
       </Box>
-      <Button variant="contained" component={Link} to={`/recipes/${recipe.id}`}>
+      <Button component={Link} to={`/recipes/${recipe.id}`}>
         <KeyboardArrowRightIcon />
       </Button>
     </Box>
