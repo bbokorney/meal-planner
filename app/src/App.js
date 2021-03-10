@@ -16,10 +16,14 @@ import { Settings } from "./features/settings/Settings";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Container from "@material-ui/core/Container";
 import { makeStyles } from "@material-ui/core/styles";
+import { BOTTOM_BAR_HEIGHT } from "./app/constants";
 import "./App.css";
 
 const useStyles = makeStyles((theme) => ({
   offset: theme.mixins.toolbar,
+  root: {
+    marginBottom: theme.spacing(BOTTOM_BAR_HEIGHT + 2),
+  },
 }));
 
 function App() {
@@ -29,7 +33,7 @@ function App() {
       <CssBaseline />
       <TopAppBar />
       <div className={classes.offset} />
-      <Container>
+      <Container classes={classes}>
         <Switch>
           <Route exact path="/" component={RecipesList} />
           <Route exact path="/recipes" component={RecipesList} />

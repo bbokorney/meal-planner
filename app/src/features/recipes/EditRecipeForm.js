@@ -4,6 +4,20 @@ import { useHistory } from "react-router-dom";
 import { selectRecipeById, updateRecipe, deleteRecipe } from "./recipesSlice";
 import { AddItemInput } from "../shared/AddItemInput";
 import { BackButtonHeader } from "./BackButtonHeader";
+import TextField from "@material-ui/core/TextField";
+import IconButton from "@material-ui/core/IconButton";
+import DeleteIcon from "@material-ui/icons/Delete";
+import SaveIcon from "@material-ui/icons/Save";
+import CloseIcon from "@material-ui/icons/Close";
+import Snackbar from "@material-ui/core/Snackbar";
+import { makeStyles } from "@material-ui/core/styles";
+import { BOTTOM_BAR_HEIGHT } from "../../app/constants";
+
+const useStyles = makeStyles((theme) => ({
+  anchorOriginBottomLeft: {
+    bottom: theme.spacing(BOTTOM_BAR_HEIGHT),
+  },
+}));
 
 export const EditRecipeForm = ({ match }) => {
   const { recipeId } = match.params;
@@ -16,14 +30,29 @@ export const EditRecipeForm = ({ match }) => {
   const [ingredients, setIngredients] = useState(recipe.ingredients);
   const [steps, setSteps] = useState(recipe.steps);
 
+  const classes = useStyles();
+
+  const [snackBarOpen, setSnackBarOpen] = useState(false);
+
+  const handleSnackBarClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setSnackBarOpen(false);
+  };
+
   const onSaveRecipeClicked = () => {
     if (name && ingredients.length > 0 && steps.length > 0) {
       dispatch(updateRecipe({ id: recipeId, name, ingredients, steps }));
-      history.push(`/recipes/${recipeId}`);
+      setSnackBarOpen(true);
     }
   };
 
   const onDeleteRecipeClicked = () => {
+    // TODO: prompt for confirmation
+    // Snackbar after delete confirmed
+    // Global snackbar?
     dispatch(deleteRecipe(recipeId));
     history.push(`/recipes`);
   };
@@ -59,12 +88,16 @@ export const EditRecipeForm = ({ match }) => {
   const renderedIngredients = ingredients.map((ingredient, index) => {
     return (
       <li key={index}>
-        <input
-          type="text"
-          name="recipeName"
-          placeholder="1 tomato"
+        <TextField
           value={ingredient.text}
+          style={{ margin: 8 }}
+          placeholder="1 tomato"
+          fullWidth
+          margin="normal"
           onChange={(e) => updateIngredientText(index, e.target.value)}
+          InputLabelProps={{
+            shrink: true,
+          }}
         />
       </li>
     );
@@ -73,10 +106,18 @@ export const EditRecipeForm = ({ match }) => {
   const renderedSteps = steps.map((step, index) => {
     return (
       <li key={index}>
-        <textarea
+        <TextField
           value={step.text}
           onChange={(e) => updateStepText(index, e.target.value)}
-        ></textarea>
+          style={{ margin: 8 }}
+          placeholder="1 tomato"
+          fullWidth
+          multiline
+          margin="normal"
+          InputLabelProps={{
+            shrink: true,
+          }}
+        />
       </li>
     );
   });
@@ -85,33 +126,65 @@ export const EditRecipeForm = ({ match }) => {
     <section>
       <BackButtonHeader text={"Edit Recipe"} />
       <form>
-        <h3>Recipe Name:</h3>
-        <textarea
+        <TextField
+          label="Recipe name"
           value={name}
+          style={{ margin: 8 }}
+          placeholder="Tasty tofu tacos"
+          fullWidth
+          margin="normal"
           onChange={(e) => setName(e.target.value)}
-        ></textarea>
-        <h3>Ingredients</h3>
+          InputLabelProps={{
+            shrink: true,
+          }}
+        />
+        <h4>Ingredients</h4>
         <ul>{renderedIngredients}</ul>
         <AddItemInput
           buttonText="Add ingredient"
           placeHolderText="1 tomato"
+          fullWidth
           onAddItemCallback={onAddIngredientToRecipeClicked}
         />
-        <h3>Steps</h3>
+        <h4>Steps</h4>
         <ol>{renderedSteps}</ol>
         <AddItemInput
           buttonText="Add step"
           placeHolderText="Boil the eggs for..."
-          elementType="textarea"
+          multiline
+          fullWidth
           onAddItemCallback={onAddStepToRecipeClicked}
         />
       </form>
-      <button type="button" onClick={onSaveRecipeClicked}>
-        Save Recipe
-      </button>
-      <button type="button" onClick={onDeleteRecipeClicked}>
-        Delete Recipe
-      </button>
+      <IconButton aria-label="save" onClick={onSaveRecipeClicked}>
+        <SaveIcon />
+      </IconButton>
+      <IconButton aria-label="delete" onClick={onDeleteRecipeClicked}>
+        <DeleteIcon />
+      </IconButton>
+      <Snackbar
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "left",
+        }}
+        classes={classes}
+        open={snackBarOpen}
+        autoHideDuration={4000}
+        onClose={handleSnackBarClose}
+        message="Recipe saved"
+        action={
+          <React.Fragment>
+            <IconButton
+              size="small"
+              aria-label="close"
+              color="inherit"
+              onClick={handleSnackBarClose}
+            >
+              <CloseIcon fontSize="small" />
+            </IconButton>
+          </React.Fragment>
+        }
+      />
     </section>
   );
 };
