@@ -11,6 +11,7 @@ import CloseIcon from "@material-ui/icons/Close";
 import IconButton from "@material-ui/core/IconButton";
 import { makeStyles } from "@material-ui/core/styles";
 import { BOTTOM_BAR_HEIGHT } from "../../app/constants";
+import Typography from "@material-ui/core/Typography";
 
 const useStyles = makeStyles((theme) => ({
   anchorOriginBottomLeft: {
@@ -39,11 +40,19 @@ export const SingleRecipe = ({ match }) => {
   };
 
   const ingredients = recipe.ingredients.map((ingredient, index) => {
-    return <li key={index}>{ingredient.text}</li>;
+    return (
+      <Typography variant="body2" key={index} gutterBottom>
+        {ingredient.text}
+      </Typography>
+    );
   });
 
   const steps = recipe.steps.map((step, index) => {
-    return <li key={index}>{step.text}</li>;
+    return (
+      <Typography variant="body2" key={index} gutterBottom>
+        {step.text}
+      </Typography>
+    );
   });
 
   return (
@@ -57,9 +66,9 @@ export const SingleRecipe = ({ match }) => {
         <EditIcon />
       </Button>
       <h3>Ingredients</h3>
-      <ul>{ingredients}</ul>
+      {ingredients}
       <h3>Steps</h3>
-      <ol>{steps}</ol>
+      {steps}
       <Snackbar
         anchorOrigin={{
           vertical: "bottom",

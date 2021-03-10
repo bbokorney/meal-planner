@@ -50,7 +50,7 @@ app.put(`${prefix}/recipes/:id`, async (req, res) => {
   });
 
   console.dir(steps, { depth: null });
-  const updatedRecipe = await prisma.recipe.update({
+  await prisma.recipe.update({
     where: { id: id },
     data: {
       name: recipe.name,
@@ -60,6 +60,14 @@ app.put(`${prefix}/recipes/:id`, async (req, res) => {
       steps: {
         upsert: steps,
       },
+    },
+  });
+
+  const updatedRecipe = await prisma.recipe.findFirst({
+    where: { id: id },
+    include: {
+      ingredients: true,
+      steps: true,
     },
   });
   console.dir(updatedRecipe, { depth: null });

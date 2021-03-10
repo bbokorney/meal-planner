@@ -87,38 +87,36 @@ export const EditRecipeForm = ({ match }) => {
 
   const renderedIngredients = ingredients.map((ingredient, index) => {
     return (
-      <li key={index}>
-        <TextField
-          value={ingredient.text}
-          style={{ margin: 8 }}
-          placeholder="1 tomato"
-          fullWidth
-          margin="normal"
-          onChange={(e) => updateIngredientText(index, e.target.value)}
-          InputLabelProps={{
-            shrink: true,
-          }}
-        />
-      </li>
+      <TextField
+        key={index}
+        value={ingredient.text}
+        style={{ margin: 8 }}
+        placeholder="1 tomato"
+        fullWidth
+        margin="normal"
+        onChange={(e) => updateIngredientText(index, e.target.value)}
+        InputLabelProps={{
+          shrink: true,
+        }}
+      />
     );
   });
 
   const renderedSteps = steps.map((step, index) => {
     return (
-      <li key={index}>
-        <TextField
-          value={step.text}
-          onChange={(e) => updateStepText(index, e.target.value)}
-          style={{ margin: 8 }}
-          placeholder="1 tomato"
-          fullWidth
-          multiline
-          margin="normal"
-          InputLabelProps={{
-            shrink: true,
-          }}
-        />
-      </li>
+      <TextField
+        key={index}
+        value={step.text}
+        onChange={(e) => updateStepText(index, e.target.value)}
+        style={{ margin: 8 }}
+        placeholder="Boil the eggs for..."
+        fullWidth
+        multiline
+        margin="normal"
+        InputLabelProps={{
+          shrink: true,
+        }}
+      />
     );
   });
 
@@ -139,7 +137,7 @@ export const EditRecipeForm = ({ match }) => {
           }}
         />
         <h4>Ingredients</h4>
-        <ul>{renderedIngredients}</ul>
+        {renderedIngredients}
         <AddItemInput
           buttonText="Add ingredient"
           placeHolderText="1 tomato"
@@ -147,7 +145,7 @@ export const EditRecipeForm = ({ match }) => {
           onAddItemCallback={onAddIngredientToRecipeClicked}
         />
         <h4>Steps</h4>
-        <ol>{renderedSteps}</ol>
+        {renderedSteps}
         <AddItemInput
           buttonText="Add step"
           placeHolderText="Boil the eggs for..."
